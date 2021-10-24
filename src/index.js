@@ -5,10 +5,16 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
+// Importing Routes
+const routes = require("./routes");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Middlewares
+app.use(express.json());
+
 // Routes
-app.use('/', require('./routes/index'));
-app.use('/login', require('./routes/login'));
-app.use('/register', require('./routes/register'));
+app.use("/api", routes);
 
 // Port
 const PORT = process.env.PORT || 3000;

@@ -1,9 +1,8 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const bcrypt = require("bcryptjs");
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class User extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,18 +11,26 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
-  user.init({
-    username: {
-      type: DataTypes.STRING,
-      primaryKey: true,
-      unique: true,
-      notNULL: true
+
+    validatePassword = async (password) => {
+      const isValid = await bcrypt.compare(password, this.password);
+      return isValid;
+    };
+  }
+  User.init(
+    {
+      username: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        unique: true,
+        notNULL: true,
+      },
+      password: DataTypes.STRING,
     },
-    password: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'user',
-  });
-  return user;
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
+  return User;
 };
