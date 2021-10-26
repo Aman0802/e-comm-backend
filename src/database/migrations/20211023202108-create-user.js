@@ -10,7 +10,7 @@ module.exports = {
       userName: {
         type: Sequelize.TEXT,
         primaryKey: true,
-        notNULL: true,
+        allowNull: true,
         unique: true,
       },
       password: {
