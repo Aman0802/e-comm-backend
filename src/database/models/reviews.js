@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         foreignKey: "userEmail",
       });
+      this.belongsTo(models.Product, {
+        foreignKey: "productId",
+      });
     }
   }
   Reviews.init(
@@ -31,7 +34,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       stars: DataTypes.FLOAT,
       reviewContent: DataTypes.STRING,
-      productId: DataTypes.UUID,
+      productId: {
+        type: DataTypes.UUID,
+        references: {
+          model: "Products",
+          key: "productId",
+        },
+      },
     },
     {
       sequelize,

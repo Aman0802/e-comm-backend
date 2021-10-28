@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Product, {
+        foreignKey: "productId",
+      });
     }
   }
   FAQs.init(
@@ -24,6 +27,17 @@ module.exports = (sequelize, DataTypes) => {
       },
       productID: {
         type: DataTypes.UUID,
+        references: {
+          model: "Product",
+          key: "productId",
+        },
+      },
+      userEmail: {
+        type: DataTypes.STRING,
+        references: {
+          model: "User",
+          key: "email",
+        },
       },
     },
     {
