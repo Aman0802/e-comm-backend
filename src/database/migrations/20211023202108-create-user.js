@@ -7,7 +7,7 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      userName: {
+      email: {
         type: Sequelize.TEXT,
         primaryKey: true,
         allowNull: true,

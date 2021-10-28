@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasOne(models.Reviews, {
+        foreignKey: "userEmail",
+      });
     }
 
     validatePassword = async (password) => {
@@ -19,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      username: {
+      email: {
         type: DataTypes.STRING,
         primaryKey: true,
         unique: true,

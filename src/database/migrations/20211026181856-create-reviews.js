@@ -14,7 +14,11 @@ module.exports = {
         allowNull: false,
       },
       userEmail: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+        references: {
+          model: "Users",
+          key: "email",
+        },
       },
       stars: {
         type: Sequelize.FLOAT,
