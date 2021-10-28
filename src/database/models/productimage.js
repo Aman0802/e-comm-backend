@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // Ima need these n̶u̶d̶e̶s̶  images to link to products to start the relationship ;)
     }
   }
   ProductImage.init(
