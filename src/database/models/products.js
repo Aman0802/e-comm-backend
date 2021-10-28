@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Products.init(
     {
-      categoryID: {
+      categoryId: {
         type: DataTypes.UUID,
         references: {
           model: "Category",

@@ -7,7 +7,7 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      categoryID: {
+      categoryId: {
         type: Sequelize.UUID,
         references: {
           model: "Categories",
