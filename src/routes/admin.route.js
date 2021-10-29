@@ -6,6 +6,16 @@ const router = require("express").Router();
 
 // const {} = require("../controllers/admin.controller");
 
+router.get('/categories', async (req, res, next) => {
+  const categories = await Category.findAll();
+  
+  res.status(200).send({
+    code: 200,
+    status: true,
+    data: categories
+  });
+});
+
 router.post("/categories", async (req, res, next) => {
   const { categoryName } = req.body;
 
