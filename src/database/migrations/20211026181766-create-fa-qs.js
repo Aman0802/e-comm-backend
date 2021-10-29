@@ -7,13 +7,13 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      faqID: {
+      faqId: {
         type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false,
         unique: true,
       },
-      productID: {
+      productId: {
         type: Sequelize.UUID,
         references: {
           model: "Products",

@@ -22,13 +22,13 @@ module.exports = (sequelize, DataTypes) => {
       question: DataTypes.STRING,
       answer: DataTypes.STRING,
       isAnswered: DataTypes.BOOLEAN,
-      faqID: {
+      faqId: {
         type: DataTypes.UUID,
         primaryKey: true,
         unique: true,
         notNull: true,
       },
-      productID: {
+      productId: {
         type: DataTypes.UUID,
         references: {
           model: "Product",
