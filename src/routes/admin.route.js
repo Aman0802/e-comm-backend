@@ -108,10 +108,16 @@ router.get('/questions', async (req, res, next) => {
   });
 });
 
-router.post("/answer-question/", async (req, res, next) => {
-  const { questionId } = req.query;
+router.post("/answer-question/:questionId", async (req, res, next) => {
+  const { questionId } = req.params;
   const { answer } = req.body;
   
+  if(!questionId){
+    return res.status(400).send({
+      message: "Please provide a question ID."
+    });
+  }
+
   if(!answer){
     return res.status(400).send({
       status: false,
@@ -120,21 +126,21 @@ router.post("/answer-question/", async (req, res, next) => {
     });
   }
 
-  const question = await FAQs.findAll({
-    where: {
-      faqId: questionId,
-    },
-  });
+  // const question = await FAQs.findAll({
+  //   where: {
+  //     faqId: questionId,
+  //   },
+  // });
 
-  if (question[0].isAnswered){
-    return res.status(201).send({
-      status: true,
-      code: 201,
-      message: "Question already answered.",
-      question: question[0].question,
-      answer: question[0].answer
-    });
-  }
+  // if (question[0].isAnswered){
+  //   return res.status(201).send({
+  //     status: true,
+  //     code: 201,
+  //     message: "Question already answered.",
+  //     question: question[0].question,
+  //     answer: question[0].answer
+  //   });
+  // }
 
   const response = await FAQs.update({
     answer,
