@@ -101,7 +101,14 @@ router.put("/products/:productId", () => {});
 
 router.delete("/reviews/:reviewId", () => {});
 
-router.post("/answer-question/:questionId", async (req, res, next) => {
+router.get('/questions', async (req, res, next) => {
+  const questions = await FAQs.findAll();
+  return res.status(200).send({
+    questions
+  });
+});
+
+router.post("/answer-question/", async (req, res, next) => {
   const { questionId } = req.query;
   const { answer } = req.body;
   
@@ -115,25 +122,33 @@ router.post("/answer-question/:questionId", async (req, res, next) => {
 
   const question = await FAQs.findAll({
     where: {
-      questionId,
+      faqId: questionId,
     },
   });
 
-  if (question.isAnswered){
+  if (question[0].isAnswered){
     return res.status(201).send({
       status: true,
       code: 201,
-      data: quesion[0]
+      message: "Question already answered.",
+      question: question[0].question,
+      answer: question[0].answer
     });
   }
 
-  question.answer = answer;
-  const response = await question.save();
+  const response = await FAQs.update({
+    answer,
+    isAnswered: true
+  }, {
+    where: { faqId: questionId}
+  });
   return res.status(200).send({
-    code: 201,
+    code: 200,
     status: true,
     data: {
-      response
+      questionId: response.faqId,
+      question: response.question,
+      answer: response.answer
     },
   });
 });

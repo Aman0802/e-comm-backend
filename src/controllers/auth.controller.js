@@ -30,13 +30,13 @@ exports.loginController = async (req, res, next) => {
 };
 
 exports.registerController = async (req, res, next) => {
-  const { username, password } = req.body;
+  const { userEmail, password } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log("hashed password", hashedPassword);
     await User.create({
-      username,
+      email: userEmail,
       password: hashedPassword,
     });
 
