@@ -36,6 +36,14 @@ router.post("/categories", async (req, res, next) => {
       },
     });
   }
+  
+  return res.status(200).send({
+    code: 200,
+    status: true,
+    data: {
+      categoryId: categories[0].categoryId
+    },
+  });
 });
 
 router.post("/products", async (req, res, next) => {
