@@ -1,12 +1,14 @@
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require("uuid"); 
+const router = require("express").Router();
+
+const passport = require('../utils/passport');
 
 const { Category, Products, FAQs } = require("../database/models");
 
-const router = require("express").Router();
 
 // const {} = require("../controllers/admin.controller");
 
-router.get('/categories', async (req, res, next) => {
+router.get('/categories', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
   const categories = await Category.findAll();
   
   res.status(200).send({
@@ -16,7 +18,7 @@ router.get('/categories', async (req, res, next) => {
   });
 });
 
-router.post("/categories", async (req, res, next) => {
+router.post("/categories", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
   const { categoryName } = req.body;
 
   if (!categoryName) {
@@ -56,7 +58,7 @@ router.post("/categories", async (req, res, next) => {
   });
 });
 
-router.post("/products", async (req, res, next) => {
+router.post("/products", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
   const {
     categoryId,
     productName,
@@ -101,14 +103,14 @@ router.put("/products/:productId", () => {});
 
 router.delete("/reviews/:reviewId", () => {});
 
-router.get('/questions', async (req, res, next) => {
+router.get('/questions', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
   const questions = await FAQs.findAll();
   return res.status(200).send({
     questions
   });
 });
 
-router.post("/answer-question/:questionId", async (req, res, next) => {
+router.post("/answer-question/:questionId", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
   const { questionId } = req.params;
   const { answer } = req.body;
   

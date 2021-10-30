@@ -1,5 +1,6 @@
 const { response } = require('express');
 const { v4: uuidv4 } = require('uuid');
+const passport = require('passport');
 
 const { FAQs, Reviews } = require('../database/models');
 
@@ -11,7 +12,7 @@ router.post("/add-to-cart/:productId", () => {});
 
 router.post("/add-to-wishlist/:productId", () => {});
 
-router.get("/reviews", async (req, res, next) => {
+router.get("/reviews", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const reviews = await Reviews.findAll();
     return res.status(200).send({
         status: true,
@@ -20,7 +21,7 @@ router.get("/reviews", async (req, res, next) => {
     });
 });
 
-router.post("/reviews/:productId", async (req, res, next) => {
+router.post("/reviews/:productId", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const { productId } = req.params;
     const { stars, reviewContent } = req.body;
     const userEmail = "om@gmail.com";
@@ -59,7 +60,7 @@ router.post("/reviews/:productId", async (req, res, next) => {
     })
 });
 
-router.post("/ask-question/:productId", async (req, res, next) => {
+router.post("/ask-question/:productId", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const { productId } = req.params;
     const { question } = req.body;
     const userEmail = "om@gmail.com";

@@ -1,4 +1,6 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
+const passport = require('passport');
 
 const { User } = require("../database/models");
 
@@ -11,10 +13,21 @@ exports.loginController = async (req, res, next) => {
       // validate password
       const validPassword = await user.validatePassword(password);
       if (validPassword) {
+
+        const token = await jwt.sign({
+          email: user.email,
+          role: user.role
+        }, 
+          process.env.USER_JWT_SECRET
+        );
+
         res.status(200).send({
           code: 200,
           status: true,
           message: "Logged in Successfully",
+          data: {
+            accessToken: token
+          }
         });
       }
     } else {
@@ -30,7 +43,7 @@ exports.loginController = async (req, res, next) => {
 };
 
 exports.registerController = async (req, res, next) => {
-  const { userEmail, password } = req.body;
+  const { userEmail, password, role } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,6 +51,7 @@ exports.registerController = async (req, res, next) => {
     await User.create({
       email: userEmail,
       password: hashedPassword,
+      role
     });
 
     res.status(200).send({
