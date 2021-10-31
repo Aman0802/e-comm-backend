@@ -3,12 +3,13 @@ const router = require("express").Router();
 
 const passport = require('../utils/passport');
 
+const { checkRole } = require('../utils/checkRole');
 const { Category, Products, FAQs } = require("../database/models");
 
 
 // const {} = require("../controllers/admin.controller");
 
-router.get('/categories', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.get('/categories', passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
   const categories = await Category.findAll();
   
   res.status(200).send({
@@ -18,7 +19,7 @@ router.get('/categories', passport.authenticate('jwt', { session: false }), asyn
   });
 });
 
-router.post("/categories", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.post("/categories", passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
   const { categoryName } = req.body;
 
   if (!categoryName) {
@@ -58,7 +59,7 @@ router.post("/categories", passport.authenticate('jwt', { session: false }), asy
   });
 });
 
-router.post("/products", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.post("/products", passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
   const {
     categoryId,
     productName,
@@ -103,7 +104,7 @@ router.put("/products/:productId", () => {});
 
 router.delete("/reviews/:reviewId", () => {});
 
-router.get('/questions', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.get('/questions', passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
   const questions = await FAQs.findAll();
   return res.status(200).send({
     questions
