@@ -1,12 +1,25 @@
-const { v4: uuidv4 } = require("uuid");
-
-const { Category, Products } = require("../database/models");
-
+const { v4: uuidv4 } = require("uuid"); 
 const router = require("express").Router();
+
+const passport = require('../utils/passport');
+
+const { checkRole } = require('../utils/checkRole');
+const { Category, Products, FAQs } = require("../database/models");
+
 
 // const {} = require("../controllers/admin.controller");
 
-router.post("/categories", async (req, res, next) => {
+router.get('/categories', passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
+  const categories = await Category.findAll();
+  
+  res.status(200).send({
+    code: 200,
+    status: true,
+    data: categories
+  });
+});
+
+router.post("/categories", passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
   const { categoryName } = req.body;
 
   if (!categoryName) {
@@ -36,9 +49,17 @@ router.post("/categories", async (req, res, next) => {
       },
     });
   }
+  
+  return res.status(200).send({
+    code: 200,
+    status: true,
+    data: {
+      categoryId: categories[0].categoryId
+    },
+  });
 });
 
-router.post("/products", async (req, res, next) => {
+router.post("/products", passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
   const {
     categoryId,
     productName,
@@ -83,6 +104,62 @@ router.put("/products/:productId", () => {});
 
 router.delete("/reviews/:reviewId", () => {});
 
-router.post("/answer-question/:questionId", () => {});
+router.get('/questions', passport.authenticate('jwt', { session: false }), checkRole('admin'), async (req, res, next) => {
+  const questions = await FAQs.findAll();
+  return res.status(200).send({
+    questions
+  });
+});
+
+router.post("/answer-question/:questionId", passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+  const { questionId } = req.params;
+  const { answer } = req.body;
+  
+  if(!questionId){
+    return res.status(400).send({
+      message: "Please provide a question ID."
+    });
+  }
+
+  if(!answer){
+    return res.status(400).send({
+      status: false,
+      code: 400,
+      message: "Please provide an answer."
+    });
+  }
+
+  // const question = await FAQs.findAll({
+  //   where: {
+  //     faqId: questionId,
+  //   },
+  // });
+
+  // if (question[0].isAnswered){
+  //   return res.status(201).send({
+  //     status: true,
+  //     code: 201,
+  //     message: "Question already answered.",
+  //     question: question[0].question,
+  //     answer: question[0].answer
+  //   });
+  // }
+
+  const response = await FAQs.update({
+    answer,
+    isAnswered: true
+  }, {
+    where: { faqId: questionId}
+  });
+  return res.status(200).send({
+    code: 200,
+    status: true,
+    data: {
+      questionId: response.faqId,
+      question: response.question,
+      answer: response.answer
+    },
+  });
+});
 
 module.exports = router;

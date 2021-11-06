@@ -4,11 +4,11 @@ const { Products } = require("../database/models");
 
 const authRoutes = require("./auth.route");
 const adminRoutes = require("./admin.route");
-// const userRoutes = require("./user.route");
+const userRoutes = require("./user.route");
 
 router.use("/auth", authRoutes);
 router.use("/admin", adminRoutes);
-// router.use("/user", userRoutes);
+router.use("/user", userRoutes);
 
 // Getting Products accessible to both user and admin
 router.get("/products", async (req, res, next) => {
