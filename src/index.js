@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const passport = require('passport');
@@ -8,6 +9,14 @@ dotenv.config();
 
 // Importing Routes
 const routes = require("./routes");
+
+// Disable cross origin resource sharing when development was done.
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
