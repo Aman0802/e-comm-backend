@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         foreignKey: "userEmail",
       });
-      this.belongsTo(models.Product, {
+      this.belongsTo(models.Products, {
         foreignKey: "productId",
       });
     }
