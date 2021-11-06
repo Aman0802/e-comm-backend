@@ -5,13 +5,12 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER,
       },
       username: {
         type: Sequelize.TEXT,
         primaryKey: true,
-        notNULL: true,
+        allowNull: true,
         unique: true,
       },
       password: {
