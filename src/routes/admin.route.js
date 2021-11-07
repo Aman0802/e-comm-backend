@@ -133,6 +133,7 @@ router.get(
 router.post(
   "/answer-question/:questionId",
   passport.authenticate("jwt", { session: false }),
+  checkRole("admin"),
   async (req, res, next) => {
     const { questionId } = req.params;
     const { answer } = req.body;

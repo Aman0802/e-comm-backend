@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.FAQs, {
         foreignKey: "userEmail",
       });
+      this.hasMany(models.Cart, {
+        foreignKey: "userEmail"
+      });
     }
 
     validatePassword = async (password) => {

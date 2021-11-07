@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
           key: "productId",
         },
       },
+      qty: {
+        type: DataTypes.INTEGER
+      },
       userEmail: {
         type: DataTypes.STRING,
         references: {
