@@ -27,15 +27,15 @@ router.get("/products", async (req, res, next) => {
       });
     }
 
-    return res.send([...products]);
+    // return res.send([...products]);
 
     // if (products) {
 
-    // return res.send({
-    //   status: true,
-    //   code: 200,
-    //   data: products,
-    // });
+    return res.send({
+      status: true,
+      code: 200,
+      data: products,
+    });
 
     // } else {
     //   res.send(400).send({

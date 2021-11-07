@@ -1,23 +1,22 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const passport = require('passport');
 
 const { User } = require("../database/models");
 
 exports.loginController = async (req, res, next) => {
-  const { username, password } = req.body;
+  const { userEmail, password } = req.body;
 
   try {
-    const user = await User.findByPk(username);
+    const user = await User.findByPk(userEmail);
     if (user) {
       // validate password
       const validPassword = await user.validatePassword(password);
       if (validPassword) {
-
-        const token = await jwt.sign({
-          email: user.email,
-          role: user.role
-        }, 
+        const token = await jwt.sign(
+          {
+            email: user.email,
+            role: user.role,
+          },
           process.env.USER_JWT_SECRET
         );
 
@@ -26,8 +25,8 @@ exports.loginController = async (req, res, next) => {
           status: true,
           message: "Logged in Successfully",
           data: {
-            accessToken: token
-          }
+            accessToken: token,
+          },
         });
       }
     } else {
@@ -51,7 +50,7 @@ exports.registerController = async (req, res, next) => {
     await User.create({
       email: userEmail,
       password: hashedPassword,
-      role
+      role,
     });
 
     res.status(200).send({
