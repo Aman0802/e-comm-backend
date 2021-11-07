@@ -85,12 +85,12 @@ router.post(
   async (req, res, next) => {
     const { productId } = req.params;
     const { stars, reviewContent } = req.body;
-    const userEmail = "om@gmail.com";
+    const { email } = jwt_decode(token);
 
     const review = await Reviews.findAll({
       where: {
         productId,
-        userEmail,
+        userEmail: email,
       },
     });
 
@@ -128,7 +128,7 @@ router.post(
   async (req, res, next) => {
     const { productId } = req.params;
     const { question } = req.body;
-    const userEmail = "om@gmail.com";
+    const { email } = jwt_decode(token);
 
     // const questions = await FAQs.findAll({
     //     where: {
