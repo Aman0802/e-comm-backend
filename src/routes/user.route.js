@@ -17,32 +17,28 @@ router.get(
   async (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     var { email } = jwt_decode(token);
-    console.log(email);
     try {
       let wishlist = await Wishlist.findAll({
         where: {
           userEmail: email,
         },
       });
-      let qty = wishlist[0].qty;
       wishlist = await Promise.all(
-        wishlist.map(async ({ productId, wishlistId, userEmail }) => {
+        wishlist.map(async ({ productId, wishlistId }) => {
           const productDetail = await axios.get(
             `http://localhost:3000/api/products/?productId=${productId}`
           );
           return {
             wishlistId,
             product: productDetail.data.data,
-            email: userEmail,
+            // email: userEmail,
           };
         })
       );
-      // console.log(wishlist[0]);
       res.send({
         status: true,
         code: 200,
         data: wishlist,
-        qty,
       });
     } catch (err) {
       console.log(err);
@@ -101,14 +97,19 @@ router.post(
 );
 
 router.get(
-  "/reviews",
+  "/reviews/:productId",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
-    const reviews = await Reviews.findAll();
+    const { productId } = req.params;
+    const reviews = await Reviews.findAll({
+      where: {
+        productId,
+      },
+    });
     return res.status(200).send({
       status: true,
       code: 200,
-      reviews,
+      data: reviews,
     });
   }
 );
@@ -148,10 +149,10 @@ router.post(
       return res.status(200).send({
         status: true,
         code: 200,
-        productId,
-        reviewId: response.reviewId,
-        stars: response.stars,
-        review: response.reviewContent,
+        message: "Inserted Successfully",
+        data: {
+          reviewId: response.reviewId,
+        },
       });
     }
 
@@ -164,8 +165,31 @@ router.post(
   }
 );
 
+router.get(
+  "/faqs/:productId",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    const { productId } = req.params;
+    try {
+      const faqs = await FAQs.findAll({
+        where: {
+          productId,
+          isAnswered: true,
+        },
+      });
+      return res.status(200).send({
+        status: true,
+        code: 200,
+        data: faqs,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 router.post(
-  "/ask-question/:productId",
+  "/faqs/:productId",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     const { productId } = req.params;
@@ -173,41 +197,36 @@ router.post(
     const token = req.headers.authorization.split(" ")[1];
     const { email } = jwt_decode(token);
 
-    // const questions = await FAQs.findAll({
-    //     where: {
-    //         productId,
-    //     },
-    // });
     if (!productId || !question) {
       return res.status(400).send({
         message: "Please enter a product ID or a question.",
       });
     }
 
-    const isProduct = await Products.findAll({ where: { productId } });
-    if (isProduct.length <= 0) {
-      return res.status(400).send({
-        message: "Product does not exists.",
+    try {
+      const isProduct = await Products.findAll({ where: { productId } });
+      if (isProduct.length <= 0) {
+        return res.status(400).send({
+          message: "Product does not exists.",
+        });
+      }
+
+      await FAQs.create({
+        question,
+        isAnswered: false,
+        faqId: uuidv4(),
+        productId,
+        userEmail: email,
       });
+
+      return res.status(200).send({
+        status: true,
+        code: 200,
+        message: "Question added successfully",
+      });
+    } catch (err) {
+      console.log(err);
     }
-
-    const insert = await FAQs.create({
-      question,
-      isAnswered: false,
-      faqId: uuidv4(),
-      productId,
-      userEmail: email,
-    });
-
-    return res.status(200).send({
-      status: true,
-      code: 200,
-      data: {
-        Question: insert.question,
-        faqId: insert.faqId,
-        productId: insert.productId,
-      },
-    });
   }
 );
 
@@ -218,12 +237,28 @@ router.get(
   async (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     const { email } = jwt_decode(token);
-    const cartItems = await Cart.findAll({ where: { userEmail: email } });
-    return res.status(200).send({
-      status: true,
-      code: 200,
-      cartItems,
-    });
+    try {
+      let cartItems = await Cart.findAll({ where: { userEmail: email } });
+      cartItems = await Promise.all(
+        (cartItems = cartItems.map(async ({ productId, cartId }) => {
+          const productDetail = await axios.get(
+            `http://localhost:3000/api/products/?productId=${productId}`
+          );
+          return {
+            cartId,
+            product: productDetail.data.data,
+            // email: userEmail,
+          };
+        }))
+      );
+      return res.status(200).send({
+        status: true,
+        code: 200,
+        data: cartItems,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
