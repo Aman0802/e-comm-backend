@@ -13,7 +13,7 @@ const router = require("express").Router();
 router.get("/wishlist", passport.authenticate('jwt', { session: false }), checkRole('user'), async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   var { email } = jwt_decode(token);
-  console.log(email);
+  // console.log(email);
   try {
     let wishlist = await Wishlist.findAll({
       where: {

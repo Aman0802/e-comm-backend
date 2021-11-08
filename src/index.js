@@ -18,14 +18,18 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: false }));
-
 // Middlewares
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
 
 // Routes
 app.use("/api", routes);
+app.use((error, req, res, next) => {
+  return res.status(error.httpStatusCode).send({
+    code: error.httpStatusCode
+  });
+});
 
 // Port
 const PORT = process.env.PORT || 3000;
