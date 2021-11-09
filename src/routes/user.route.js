@@ -18,6 +18,7 @@ router.get(
     const token = req.headers.authorization.split(" ")[1];
     var { email } = jwt_decode(token);
     try {
+      // throw new Error('lmao fix dis');
       let wishlist = await Wishlist.findAll({
         where: {
           userEmail: email,
@@ -41,10 +42,48 @@ router.get(
         data: wishlist,
       });
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 );
+
+router.delete('/wishlist', passport.authenticate("jwt", { session: false } ), checkRole('user'), async (req, res, next) => {
+  const { productId } = req.body;
+  const token = req.headers.authorization.split(" ")[1];
+  const { email } = jwt_decode(token);
+
+  try {
+    if(!productId){
+      throw new Error("Product Id is empty.");
+    }
+
+    const isproductThere = await Wishlist.findAll({ where: { productId } });
+    if(isproductThere.length <= 0){
+      throw new Error('Specified product is not in your wishlist.');
+    }
+
+    const chibakuTensei = await Wishlist.destroy({
+      where: {
+        userEmail: email,
+        productId
+      }
+    })
+
+    return res.status(201).send({
+      status: true,
+      code: 201,
+      message: "Item removed succesfully.",
+      data: chibakuTensei
+    });
+
+  } catch(err) {
+    const error = new Error(err);
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+});
 
 router.post(
   "/wishlist",
@@ -54,7 +93,17 @@ router.post(
     const token = req.headers.authorization.split(" ")[1];
     const { email } = jwt_decode(token);
     const { productId } = req.body;
+ 
     try {
+      if(!productId){
+        throw new Error("No product id provided.");
+      }
+
+      const isproductThere = await Products.findAll({ where: { productId } });
+      if(isproductThere.length <= 0){
+        throw new Error('Specified product does not exist.');
+      }
+
       const isThere = await Wishlist.findAll({
         where: { userEmail: email, productId },
       });
@@ -69,7 +118,6 @@ router.post(
             where: { userEmail: email, productId },
           }
         );
-
         return res.status(200).send({
           status: true,
           code: 200,
@@ -77,8 +125,8 @@ router.post(
         });
       }
 
-      console.log("email", email);
-      console.log("productId", productId);
+      // console.log("email", email);
+      // console.log("productId", productId);
       await Wishlist.create({
         wishlistId: uuidv4(),
         userEmail: email,
@@ -91,7 +139,10 @@ router.post(
         message: "Added to Wishlist Successfully!",
       });
     } catch (err) {
-      console.log(err);
+      // console.log('houston we have a problem.');
+      const error = new Error(err);
+      error.httpStatusCode = 400;
+      return next(error);
     }
   }
 );
@@ -100,17 +151,28 @@ router.get(
   "/reviews/:productId",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
-    const { productId } = req.params;
-    const reviews = await Reviews.findAll({
-      where: {
-        productId,
-      },
-    });
-    return res.status(200).send({
-      status: true,
-      code: 200,
-      data: reviews,
-    });
+    try{
+      const { productId } = req.params;
+      const isproductThere = await Products.findAll({ where: { productId } });
+      if(isproductThere.length <= 0){
+        throw new Error('Specified product does not exist.');
+      }
+      
+      const reviews = await Reviews.findAll({
+        where: {
+          productId,
+        },
+      });
+      return res.status(200).send({
+        status: true,
+        code: 200,
+        data: reviews,
+      });
+    } catch(err){
+      const error = new Error(err);
+      error.httpStatusCode = 400;
+      return next(error);
+    }
   }
 );
 
@@ -123,45 +185,55 @@ router.post(
     const token = req.headers.authorization.split(" ")[1];
     const { email } = jwt_decode(token);
 
-    const isProduct = await Products.findAll({ where: { productId } });
-    if (isProduct.length <= 0) {
-      return res.status(400).send({
-        message: "Product does not exists.",
-      });
-    }
+    try{
+      if(!productId || !stars || !reviewContent) {
+        throw new Error("Product id, stars or review content is empty!");
+      }
 
-    const review = await Reviews.findAll({
-      where: {
-        productId,
-        userEmail: email,
-      },
-    });
+      const isProduct = await Products.findAll({ where: { productId } });
+      if (isProduct.length <= 0) {
+        throw new Error("Product does not exists.");
+      }
 
-    if (review.length <= 0) {
-      const response = await Reviews.create({
-        reviewId: uuidv4(),
-        userEmail: email,
-        stars,
-        reviewContent,
-        productId,
-      });
-
-      return res.status(200).send({
-        status: true,
-        code: 200,
-        message: "Inserted Successfully",
-        data: {
-          reviewId: response.reviewId,
+      const review = await Reviews.findAll({
+        where: {
+          productId,
+          userEmail: email,
         },
       });
-    }
 
-    return res.status(201).send({
-      status: true,
-      code: 201,
-      message: "Review already exists!",
-      review: review[0],
-    });
+      if (review.length <= 0) {
+        const response = await Reviews.create({
+          reviewId: uuidv4(),
+          userEmail: email,
+          stars,
+          reviewContent,
+          productId,
+        });
+
+        return res.status(200).send({
+          status: true,
+          code: 200,
+          message: "Inserted Successfully",
+          data: {
+            reviewId: response.reviewId,
+          },
+        });
+      }
+
+      // return res.status(201).send({
+      //   status: true,
+      //   code: 201,
+      //   message: "Review already exists!",
+      //   review: review[0],
+      // });
+
+      throw new Error("Review already exists!");
+    } catch(err) {
+      const error = new Error(err);
+      error.httpStatusCode = 400;
+      return next(error);
+    }
   }
 );
 
@@ -171,10 +243,19 @@ router.get(
   async (req, res, next) => {
     const { productId } = req.params;
     try {
+      if(!productId){
+        throw new Error("Product ID is not provided.")
+      }
+
+      const isProduct = await Products.findAll({ where: { productId } });
+      if (isProduct.length <= 0) {
+        throw new Error("Product does not exists.");
+      }
+
       const faqs = await FAQs.findAll({
         where: {
           productId,
-          isAnswered: true,
+          // isAnswered: true,
         },
       });
       return res.status(200).send({
@@ -183,7 +264,9 @@ router.get(
         data: faqs,
       });
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 400;
+      return next(error);
     }
   }
 );
@@ -197,13 +280,11 @@ router.post(
     const token = req.headers.authorization.split(" ")[1];
     const { email } = jwt_decode(token);
 
-    if (!productId || !question) {
-      return res.status(400).send({
-        message: "Please enter a product ID or a question.",
-      });
-    }
-
     try {
+      if (!productId || !question) {
+        throw new Error("Product ID or question is empty.");
+      }
+
       const isProduct = await Products.findAll({ where: { productId } });
       if (isProduct.length <= 0) {
         return res.status(400).send({
@@ -262,6 +343,47 @@ router.get(
   }
 );
 
+router.delete('/cart', passport.authenticate('jwt', { session: false } ), checkRole("user"), async (req, res, next) => {
+  const { productId } = req.body;
+  const token = req.headers.authorization.split(" ")[1];
+  const { email } = jwt_decode(token);
+
+  try {
+    if(!productId){
+      throw new Error("Product ID is empy.");
+    }
+
+    const isproductThere = await Cart.findAll({
+      where: {
+        userEmail: email,
+        productId
+      }
+    })
+
+    if(isproductThere.length <= 0) {
+      throw new Error("Product does not exist in cart.");
+    }
+
+    const chibakuTensei = await Cart.destroy({
+      where: {
+        userEmail: email,
+        productId
+      }
+    });
+
+    return res.status(201).send({
+      status: true,
+      code: 201,
+      message: "Item successfully removed from cart."
+    });
+
+  } catch(err) {
+    const error = new Error(err);
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+});
+
 router.post(
   "/cart",
   passport.authenticate("jwt", { session: false }),
@@ -271,50 +393,69 @@ router.post(
     const token = req.headers.authorization.split(" ")[1];
     const { email } = jwt_decode(token);
 
-    if (!email || !productId) {
-      return res.status(400).send({
-        status: false,
-        code: 400,
-        message: "Product ID or user email is empty :(",
-      });
-    }
+    try {
+      if (!email || !productId) {
+        return res.status(400).send({
+          status: false,
+          code: 400,
+          message: "Product ID or user email is empty :(",
+        });
+      }
 
-    const isThere = await Cart.findAll({
-      where: { userEmail: email, productId },
-    });
-    if (isThere.length > 0) {
-      let newQty = parseInt(isThere[0].qty);
-      newQty += 1;
-      console.log(newQty);
-      const update = await Cart.update(
-        {
-          qty: newQty,
-        },
-        {
-          where: { userEmail: email, productId },
+      const isproductThere = await Products.findAll({
+        where: {
+          productId
         }
-      );
+      });
+
+      if(isproductThere.length <= 0){
+        throw new Error("Product does not exists.");
+      }
+
+      const isThere = await Cart.findAll({
+        where: {
+          userEmail: email,
+          productId
+        },
+      });
+      if (isThere.length > 0) {
+        let newQty = parseInt(isThere[0].qty);
+        newQty += 1;
+        console.log(newQty);
+        const update = await Cart.update(
+          {
+            qty: newQty,
+          },
+          {
+            where: { userEmail: email, productId },
+          }
+        );
+
+        return res.status(200).send({
+          status: true,
+          code: 200,
+          update,
+        });
+      }
+
+      const add = await Cart.create({
+        cartId: uuidv4(),
+        productId,
+        qty: 1,
+        userEmail: email,
+      });
 
       return res.status(200).send({
         status: true,
         code: 200,
-        update,
+        message: "Insertion successfull.",
+        item: add,
       });
+    } catch(err) {
+      const error = new Error(err);
+      error.httpStatusCode = 400;
+      return next(error);
     }
-
-    const add = await Cart.create({
-      cartId: uuidv4(),
-      productId,
-      qty: 1,
-      userEmail: email,
-    });
-
-    return res.status(200).send({
-      status: true,
-      code: 200,
-      message: "Insertion successfull.",
-      item: add,
-    });
   }
 );
 
