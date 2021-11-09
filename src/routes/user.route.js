@@ -176,6 +176,48 @@ router.get(
   }
 );
 
+router.delete('/reviews', passport.authenticate('jwt', { session: false } ), checkRole('user', 'role'), async (req, res, next) => {
+  const { reviewId } = req.body;
+  const token = req.headers.authorization.split(" ")[1];
+  const { email } = jwt_decode(token);
+
+  try {
+    if(!reviewId){
+      throw new Error("Review ID is empty.");
+    }
+
+    const isThere = await Reviews.findAll({
+      where: {
+        userEmail: email,
+        reviewId
+      }
+    });
+
+    if(isThere.length <= 0){
+      throw new Error("Review does not exists.");
+    }
+
+    const chibakuTensei = await Reviews.destroy({
+      where: {
+        userEmail: email,
+        reviewId
+      }
+    });
+
+    return res.status(201).send({
+      status: true,
+      code: 201,
+      message: "Review deleted successfully."
+    });
+
+  } catch(err){
+    const error = new Error(err);
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+
+});
+
 router.post(
   "/reviews/:productId",
   passport.authenticate("jwt", { session: false }),
@@ -270,6 +312,48 @@ router.get(
     }
   }
 );
+
+router.delete('/faqs', passport.authenticate('jwt', { session: false } ), checkRole('user', 'admin'), async (req, res, next) => {
+  const { faqId } = req.body;
+  const token = req.headers.authorization.split(" ")[1];
+  const { email } = jwt_decode(token);
+
+  try {
+    if(!faqId){
+      throw new Error("FAQ ID is empty.");
+    }
+
+    const isThere = await FAQs.findAll({
+      where: {
+        faqId,
+        userEmail: email
+      }
+    });
+
+    if(isThere.length <= 0){
+      throw new Error("FAQ does not exists.");
+    }
+
+    const chibakuTensei = await FAQs.destroy({
+      where: {
+        faqId,
+        userEmail: email
+      }
+    });
+
+    return res.status(201).send({
+      status: true,
+      code: 201,
+      message: "FAQ successfully deleted."
+    });
+
+  } catch(err) {
+    const error = new Error(err);
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+
+});
 
 router.post(
   "/faqs/:productId",
