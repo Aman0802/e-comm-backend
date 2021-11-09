@@ -5,7 +5,7 @@ const passport = require("../utils/passport");
 const jwt_decode = require("jwt-decode");
 
 const { checkRole } = require("../utils/checkRole");
-const { Category, Products, FAQs } = require("../database/models");
+const { Category, Products, FAQs, Reviews, ProductImage, Wishlist, Cart } = require("../database/models");
 
 // const {} = require("../controllers/admin.controller");
 
@@ -137,7 +137,6 @@ router.post(
   }
 );
 
-// "message": "SequelizeForeignKeyConstraintError: update or delete on table \"Products\" violates foreign key constraint \"Reviews_productId_fkey\" on table \"Reviews\""
 router.delete("/products", passport.authenticate('jwt', { session: false } ), checkRole('admin'), async (req, res, next) => {
   const { productId } = req.body;
 
@@ -154,6 +153,36 @@ router.delete("/products", passport.authenticate('jwt', { session: false } ), ch
     if(isproductThere.length <= 0){
       throw new Error("Product does not exists.");
     }
+
+    const shinraTensei = await FAQs.destroy({
+      where:{
+        productId
+      }
+    });
+
+    const edoTensei = await Reviews.destroy({
+      where: {
+        productId
+      }
+    });
+
+    const banshoTenin = await ProductImage.destroy({
+      where: {
+        productId
+      }
+    });
+
+    const kageBunshin = await Wishlist.destroy({
+      where: {
+        productId
+      }
+    })
+
+    const rasenShuriken = await Cart.destroy({
+      where: {
+        productId
+      }
+    });
 
     const chibakuTensei = await Products.destroy({
       where: {
