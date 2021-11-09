@@ -228,7 +228,7 @@ router.put("/products/:productId", passport.authenticate('jwt', { session: false
   } catch(err) {
     const error = new Error(err);
     error.httpStatusCode = 400;
-    console.log(error);
+    // console.log(error);
     return next(error);
   }
 
