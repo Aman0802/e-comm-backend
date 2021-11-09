@@ -27,7 +27,8 @@ app.use(passport.initialize());
 app.use("/api", routes);
 app.use((error, req, res, next) => {
   return res.status(error.httpStatusCode).send({
-    code: error.httpStatusCode
+    code: error.httpStatusCode,
+    message: error.message
   });
 });
 
