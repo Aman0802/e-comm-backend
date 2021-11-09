@@ -5,8 +5,7 @@ const axios = require("axios");
 
 const { checkRole } = require("../utils/checkRole");
 
-const { Wishlist } = require("../database/models");
-const { FAQs, Reviews, Cart, Products } = require("../database/models");
+const { FAQs, Reviews, Cart, Products, Wishlist } = require("../database/models");
 
 const router = require("express").Router();
 
