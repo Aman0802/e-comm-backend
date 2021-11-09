@@ -140,8 +140,6 @@ router.post(
 // "message": "SequelizeForeignKeyConstraintError: update or delete on table \"Products\" violates foreign key constraint \"Reviews_productId_fkey\" on table \"Reviews\""
 router.delete("/products", passport.authenticate('jwt', { session: false } ), checkRole('admin'), async (req, res, next) => {
   const { productId } = req.body;
-  const token = req.headers.authorization.split(" ")[1];
-  const { email } = jwt_decode(token);
 
   try {
     if(!productId){
@@ -177,7 +175,64 @@ router.delete("/products", passport.authenticate('jwt', { session: false } ), ch
 
 });
 
-router.put("/products/:productId", () => {});
+router.put("/products/:productId", passport.authenticate('jwt', { session: false } ), checkRole('admin'), async (req, res, next) => {
+  const { productId } = req.params;
+  const { categoryId, productName, description, originalPrice, discountedPrice, newcategoryId } = req.body;
+  
+  try {
+    if(!categoryId && !productId){
+      throw new Error("Category ID or Product ID is empty");
+    }
+
+    if(!productName && !description && !originalPrice && !discountedPrice){
+      throw new Error("Product information is empty.");
+    }
+
+    const isCategory = await Category.findAll({
+      where: {
+        categoryId
+      }
+    });
+    if(isCategory.length <= 0){
+      throw new Error("Category does not exists.");
+    }
+    
+    const isInCategory = await Products.findAll({
+      where: {
+        categoryId,
+        productId
+      }
+    });
+    if(isInCategory.length <= 0){
+      throw new Error("The product does not exists in this category.");
+    }
+
+    const rinneRebirth = await Products.update({
+      // categoryId: newcategoryId,
+      productName,
+      description,
+      originalPrice,
+      discountedPrice
+    }, {
+      where: {
+        productId
+      }
+    });
+
+    return res.status(201).send({
+      status: true,
+      code: 201,
+      message: "Product successfully updated."
+    });
+
+  } catch(err) {
+    const error = new Error(err);
+    error.httpStatusCode = 400;
+    console.log(error);
+    return next(error);
+  }
+
+});
 
 // router.delete("/reviews/:reviewId", () => {}); THIS ROUTE IS WORKING FOR BOTH ROLES IN "user.route.js"
 
