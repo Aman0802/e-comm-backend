@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "productId",
       });
       this.hasMany(models.Cart, {
-        foreignKey: "productId"
+        foreignKey: "productId",
       });
     }
   }
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       productName: DataTypes.STRING,
-      description: DataTypes.STRING,
+      description: DataTypes.TEXT,
       originalPrice: DataTypes.FLOAT,
       discountedPrice: DataTypes.FLOAT,
     },
