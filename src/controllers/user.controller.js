@@ -395,7 +395,7 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.deleteCart = async (req, res, next) => {
-	const { productId } = req.body;
+	const { productId } = req.query;
 	const token = req.headers.authorization.split(" ")[1];
 	const { email } = jwt_decode(token);
 
@@ -496,7 +496,7 @@ exports.addToCart = async (req, res, next) => {
 		return res.status(200).send({
 			status: true,
 			code: 200,
-			data: update,
+			// data: update,
 			message: "Insertion successfull.",
 			item: add,
 		});
