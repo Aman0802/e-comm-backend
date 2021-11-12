@@ -86,9 +86,7 @@ exports.addProducts = async (req, res, next) => {
 		}
 
 		if (!productImages) {
-			throw new Error(
-				"PLease provide atleast one Image Url for the given product."
-			);
+			throw new Error("PLease provide productImages array in body.");
 		}
 
 		const isCategory = await Category.findAll({
