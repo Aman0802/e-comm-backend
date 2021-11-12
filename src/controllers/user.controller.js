@@ -47,7 +47,7 @@ exports.getWishlist = async (req, res, next) => {
 };
 
 exports.deleteWishlistItem = async (req, res, next) => {
-	const { productId } = req.body;
+	const { productId } = req.query;
 	const token = req.headers.authorization.split(" ")[1];
 	const { email } = jwt_decode(token);
 
