@@ -510,7 +510,7 @@ exports.addToCart = async (req, res, next) => {
 exports.getCategoryProducts = async (req, res, next) => {
   try {
     let categories = await Category.findAll();
-    console.log("categories: ", categories);
+    // console.log("categories: ", typeof(categories));
 
     categories = await Promise.all(
       categories.map(async ({ categoryId, categoryName }) => {
@@ -524,6 +524,8 @@ exports.getCategoryProducts = async (req, res, next) => {
         };
       })
     );
+
+    // console.log(categories)
 
     res.send({
       code: 200,

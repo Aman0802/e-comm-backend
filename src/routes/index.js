@@ -30,14 +30,13 @@ router.get("/products", async (req, res, next) => {
 		if (products) {
 			if (Array.isArray(products)) {
 				products = await Promise.all(
-					products.length > 0 &&
 						products.map(async (product) => {
 							const productImages = await ProductImage.findAll({
 								where: {
 									productId: product.productId,
 								},
 							});
-							console.log(productImages);
+							// console.log(productImages);
 							return {
 								...product.dataValues,
 								productImages,
