@@ -508,29 +508,29 @@ exports.addToCart = async (req, res, next) => {
 };
 
 exports.getCategoryProducts = async (req, res, next) => {
-	try {
-		let categories = await Category.findAll();
-		console.log("categories: ", categories);
+  try {
+    let categories = await Category.findAll();
+    console.log("categories: ", categories);
 
-		categories = await Promise.all(
-			categories.map(async ({ categoryId, categoryName }) => {
-				const productsDetails = await axios.get(
-					`http://localhost:3000/api/products/?categoryId=${categoryId}`
-				);
-				return {
-					categoryId,
-					categoryName,
-					products: productsDetails,
-				};
-			})
-		);
+    categories = await Promise.all(
+      categories.map(async ({ categoryId, categoryName }) => {
+        const productsDetails = await axios.get(
+          `http://localhost:3000/api/products/?categoryId=${categoryId}`
+        );
+        return {
+          categoryId,
+          categoryName,
+          products: productsDetails.data,
+        };
+      })
+    );
 
-		res.send({
-			code: 200,
-			status: true,
-			data: categories,
-		});
-	} catch (err) {
-		console.log(err);
-	}
+    res.send({
+      code: 200,
+      status: true,
+      data: categories,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
