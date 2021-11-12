@@ -72,6 +72,7 @@ exports.addProducts = async (req, res, next) => {
 			description,
 			originalPrice,
 			discountedPrice,
+			productImages,
 		} = req.body;
 
 		if (
@@ -84,13 +85,17 @@ exports.addProducts = async (req, res, next) => {
 			throw new Error("Fields are empty.");
 		}
 
+		if (!productImages) {
+			throw new Error("PLease provide productImages array in body.");
+		}
+
 		const isCategory = await Category.findAll({
 			where: {
 				categoryId,
 			},
 		});
 		if (isCategory.length <= 0) {
-			throw new Error("Category does not exists.");
+			throw new Error("The category does not exists.");
 		}
 
 		const isproductThere = await Products.findAll({
@@ -105,14 +110,50 @@ exports.addProducts = async (req, res, next) => {
 			);
 		}
 
+		const productId = uuidv4();
+
 		const response = await Products.create({
-			productId: uuidv4(),
+			productId,
 			categoryId,
 			productName,
 			description,
 			originalPrice,
 			discountedPrice,
 		});
+
+		if (productImages.length > 5) {
+			throw new Error("Maximum number of images should not be more than 5.");
+		}
+
+		let lmaoDisShouldbeTrue = true;
+
+		if (productImages.length > 1) {
+			productImages.map(async (prodImage) => {
+				try {
+					if (prodImage === " ") {
+						lmaoDisShouldbeTrue = false;
+					} else {
+						const chidori = await ProductImage.create({
+							productImageId: uuidv4(),
+							productId,
+							productImageUrl: prodImage,
+						});
+					}
+				} catch (err) {
+					const error = new Error(err);
+					error.httpStatusCode = 400;
+					return next(error);
+				}
+			});
+		} else {
+			const chidoriii = await ProductImage.create({
+				productId,
+				productImageId: uuidv4(),
+				productImageUrl:
+					"https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png",
+			});
+		}
+
 		return res.status(201).send({
 			code: 201,
 			status: true,
@@ -128,7 +169,7 @@ exports.addProducts = async (req, res, next) => {
 };
 
 exports.deleteProduct = async (req, res, next) => {
-	const { productId } = req.body;
+	const { productId } = req.query;
 
 	try {
 		if (!productId) {
