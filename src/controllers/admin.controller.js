@@ -274,7 +274,7 @@ exports.updateProduct = async (req, res, next) => {
 
 		const rinneRebirth = await Products.update(
 			{
-				// categoryId: newcategoryId,
+				categoryId: newcategoryId,
 				productName,
 				description,
 				originalPrice,
