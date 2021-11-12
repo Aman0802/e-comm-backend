@@ -519,7 +519,7 @@ exports.getCategoryProducts = async (req, res, next) => {
         return {
           categoryId,
           categoryName,
-          products: productsDetails,
+          products: productsDetails.data,
         };
       })
     );
