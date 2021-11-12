@@ -49,7 +49,7 @@ router.get(
 );
 
 router.delete('/wishlist', passport.authenticate("jwt", { session: false } ), checkRole('user'), async (req, res, next) => {
-  const { productId } = req.body;
+  const { productId } = req.query;
   const token = req.headers.authorization.split(" ")[1];
   const { email } = jwt_decode(token);
 
@@ -427,13 +427,13 @@ router.get(
 );
 
 router.delete('/cart', passport.authenticate('jwt', { session: false } ), checkRole("user"), async (req, res, next) => {
-  const { productId } = req.body;
+  const { productId } = req.query;
   const token = req.headers.authorization.split(" ")[1];
   const { email } = jwt_decode(token);
 
   try {
     if(!productId){
-      throw new Error("Product ID is empy.");
+      throw new Error("Product ID is empty.");
     }
 
     const isproductThere = await Cart.findAll({
