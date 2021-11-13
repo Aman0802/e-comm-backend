@@ -58,9 +58,15 @@ exports.addCategories = async (req, res, next) => {
 			},
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -130,7 +136,7 @@ exports.addProducts = async (req, res, next) => {
 		if (productImages.length > 1) {
 			productImages.map(async (prodImage) => {
 				try {
-					if (prodImage === " ") {
+					if (prodImage.trim() === "") {
 						lmaoDisShouldbeTrue = false;
 					} else {
 						const chidori = await ProductImage.create({
@@ -162,9 +168,15 @@ exports.addProducts = async (req, res, next) => {
 			},
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -227,9 +239,15 @@ exports.deleteProduct = async (req, res, next) => {
 			message: "Product successfully deleted.",
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -293,10 +311,15 @@ exports.updateProduct = async (req, res, next) => {
 			message: "Product successfully updated.",
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		// console.log(error);
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -348,9 +371,15 @@ exports.answerQuestion = async (req, res, next) => {
 			},
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -375,8 +404,14 @@ exports.addProductImages = async (req, res, next) => {
 			},
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
