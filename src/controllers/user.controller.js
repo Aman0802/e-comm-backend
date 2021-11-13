@@ -12,6 +12,8 @@ const {
   Category,
 } = require("../database/models");
 
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 exports.getWishlist = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   var { email } = jwt_decode(token);
@@ -532,4 +534,29 @@ exports.getCategoryProducts = async (req, res, next) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+exports.payment = async (req, res, next) => {
+  const { product } = req.body;
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [
+      {
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: product.name,
+            images: [product.image],
+          },
+          unit_amount: product.amount * 100,
+        },
+        quantity: product.quantity,
+      },
+    ],
+    mode: "payment",
+    success_url: "http://localhost:4200/success",
+    cancel_url: "http://localhost:4200/cancel",
+  });
+
+  res.json({ id: session.id });
 };
