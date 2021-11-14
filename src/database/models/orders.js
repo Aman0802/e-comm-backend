@@ -22,16 +22,19 @@ module.exports = (sequelize, DataTypes) => {
 			orderId: {
 				type: DataTypes.UUID,
 				primaryKey: true,
-				unique: true,
 				allowNull: false,
 			},
 			productId: {
 				type: DataTypes.UUID,
 				primaryKey: true,
+				allowNull: false,
 				references: {
 					model: "Products",
 					key: "productId",
 				},
+			},
+			qty: {
+				type: DataTypes.INTEGER,
 			},
 			userEmail: {
 				type: DataTypes.STRING,

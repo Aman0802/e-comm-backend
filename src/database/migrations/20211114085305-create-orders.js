@@ -11,7 +11,6 @@ module.exports = {
 				type: Sequelize.UUID,
 				primaryKey: true,
 				allowNull: false,
-				unique: true,
 			},
 			productId: {
 				type: Sequelize.UUID,
@@ -20,6 +19,10 @@ module.exports = {
 					model: "Products",
 					key: "productId",
 				},
+			},
+			qty: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
 			},
 			userEmail: {
 				type: Sequelize.TEXT,
