@@ -749,12 +749,19 @@ exports.stripePayment = async (req, res, next) => {
 							})
 						);
 
+						const chibakuTensei = await Cart.destroy({
+							where: {
+								userEmail: email,
+							},
+						});
+
 						res.json({
 							success: true,
 							status: "Payments Successfull!",
 						});
 					} catch (err) {
 						if (err instanceof DatabaseError) {
+							console.log(err);
 							const error = new Error(err);
 							error.httpStatusCode = 500;
 							return next(error);
