@@ -12,6 +12,8 @@ const {
 	Category,
 } = require("../database/models");
 
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 exports.getWishlist = async (req, res, next) => {
 	const token = req.headers.authorization.split(" ")[1];
 	var { email } = jwt_decode(token);

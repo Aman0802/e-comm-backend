@@ -115,4 +115,6 @@ router.get(
 	getCategoryProducts
 );
 
+router.post("/stripe/payment", stripePayment);
+
 module.exports = router;
