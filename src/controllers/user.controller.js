@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require("uuid");
-
 const { DatabaseError } = require("sequelize");
 const jwt_decode = require("jwt-decode");
 const axios = require("axios");
@@ -431,15 +430,16 @@ exports.getCart = async (req, res, next) => {
 	const { email } = jwt_decode(token);
 	try {
 		let cartItems = await Cart.findAll({ where: { userEmail: email } });
+		console.log(cartItems);
 		cartItems = await Promise.all(
-			cartItems.map(async ({ productId, cartId }) => {
+			cartItems.map(async ({ productId, cartId, qty }) => {
 				const productDetail = await axios.get(
 					`http://localhost:3000/api/products/?productId=${productId}`
 				);
 				return {
 					cartId,
 					product: productDetail.data.data,
-					// email: userEmail,
+					qty,
 				};
 			})
 		);
