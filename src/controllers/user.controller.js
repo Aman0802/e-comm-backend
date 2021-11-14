@@ -504,6 +504,70 @@ exports.deleteCart = async (req, res, next) => {
 	}
 };
 
+exports.decreaseCartQty = async (req, res, next) => {
+	try {
+		if (!productId) {
+			throw new Error("Product ID is empy.");
+		}
+
+		const isproductThere = await Cart.findAll({
+			where: {
+				userEmail: email,
+				productId,
+			},
+		});
+
+		if (isproductThere.length <= 0) {
+			throw new Error("Product does not exist in cart.");
+		}
+
+		if (isproductThere[0].qty == 1) {
+			const chibakuTensei = await Cart.destroy({
+				where: {
+					userEmail: email,
+					productId,
+				},
+			});
+
+			return res.status(201).send({
+				status: true,
+				code: 201,
+				message: "Item successfully removed from cart.",
+			});
+		}
+
+		let newQty = parseInt(isproductThere[0].qty);
+		newQty -= 1;
+		const susanoo = await Cart.update(
+			{
+				qty: newQty,
+			},
+			{
+				where: {
+					productId,
+					userEmail: email,
+				},
+			}
+		);
+
+		return res.status(201).send({
+			status: true,
+			code: 201,
+			message: "Item quantity decreased by 1",
+		});
+	} catch (err) {
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
+	}
+};
+
 exports.addToCart = async (req, res, next) => {
 	const { productId } = req.body;
 	const token = req.headers.authorization.split(" ")[1];
@@ -618,3 +682,5 @@ exports.getCategoryProducts = async (req, res, next) => {
 		}
 	}
 };
+
+exports.addOrder = async (req, res, next) => {};
