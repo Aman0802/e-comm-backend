@@ -17,6 +17,7 @@ const {
   addToCart,
   getCategoryProducts,
   decreaseCartQty,
+  stripePayment,
 } = require("../controllers/user.controller");
 
 const router = require("express").Router();
