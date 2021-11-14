@@ -712,10 +712,12 @@ exports.stripePayment = async (req, res, next) => {
 						productId: cartItem.productId,
 					},
 				});
-				total += parseFloat(items[0].discountedPrice);
+				let amt = parseFloat(items[0].discountedPrice);
+				console.log("qty" + cartItem.qty);
+				total += amt * parseInt(cartItem.qty);
 			})
 		);
-		console.log(total);
+		// console.log(total);
 		if (total != amount) {
 			throw new Error(
 				"Amount to be paid is not equal to total price of products in the cart."
@@ -738,12 +740,13 @@ exports.stripePayment = async (req, res, next) => {
 				} else {
 					try {
 						const orderId = uuidv4();
-						console.log("LMAO");
+						// console.log("LMAO");
 						await Promise.all(
 							cartItems.map(async (cartItem) => {
 								const adding = await Orders.create({
 									orderId,
 									productId: cartItem.productId,
+									qty: cartItem.qty,
 									userEmail: email,
 								});
 							})
