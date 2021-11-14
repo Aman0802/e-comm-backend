@@ -40,9 +40,15 @@ exports.getWishlist = async (req, res, next) => {
 			data: wishlist,
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 500;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -75,9 +81,15 @@ exports.deleteWishlistItem = async (req, res, next) => {
 			data: chibakuTensei,
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -132,9 +144,15 @@ exports.addToWishlist = async (req, res, next) => {
 		});
 	} catch (err) {
 		// console.log('houston we have a problem.');
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -157,9 +175,15 @@ exports.getReviews = async (req, res, next) => {
 			data: reviews,
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -197,9 +221,15 @@ exports.deleteReviews = async (req, res, next) => {
 			message: "Review deleted successfully.",
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -254,9 +284,15 @@ exports.addReviews = async (req, res, next) => {
 
 		throw new Error("Review already exists!");
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -284,9 +320,15 @@ exports.getFAQs = async (req, res, next) => {
 			data: faqs,
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -325,9 +367,15 @@ exports.deleteFAQs = async (req, res, next) => {
 			message: "FAQ successfully deleted.",
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -363,7 +411,15 @@ exports.addFAQs = async (req, res, next) => {
 			message: "Question added successfully",
 		});
 	} catch (err) {
-		console.log(err);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -390,7 +446,15 @@ exports.getCart = async (req, res, next) => {
 			data: cartItems,
 		});
 	} catch (err) {
-		console.log(err);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -428,9 +492,15 @@ exports.deleteCart = async (req, res, next) => {
 			message: "Item successfully removed from cart.",
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
@@ -501,38 +571,50 @@ exports.addToCart = async (req, res, next) => {
 			item: add,
 		});
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 400;
-		return next(error);
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
 	}
 };
 
 exports.getCategoryProducts = async (req, res, next) => {
-  try {
-    let categories = await Category.findAll();
-    // console.log("categories: ", typeof(categories));
+	try {
+		let categories = await Category.findAll();
+		console.log("categories: ", categories);
 
-    categories = await Promise.all(
-      categories.map(async ({ categoryId, categoryName }) => {
-        const productsDetails = await axios.get(
-          `http://localhost:3000/api/products/?categoryId=${categoryId}`
-        );
-        return {
-          categoryId,
-          categoryName,
-          products: productsDetails.data,
-        };
-      })
-    );
+		categories = await Promise.all(
+			categories.map(async ({ categoryId, categoryName }) => {
+				const productsDetails = await axios.get(
+					`http://localhost:3000/api/products/?categoryId=${categoryId}`
+				);
+				return {
+					categoryId,
+					categoryName,
+					products: productsDetails.data,
+				};
+			})
+		);
 
-    // console.log(categories)
-
-    res.send({
-      code: 200,
-      status: true,
-      data: categories,
-    });
-  } catch (err) {
-    console.log(err);
-  }
+		res.send({
+			code: 200,
+			status: true,
+			data: categories,
+		});
+	} catch (err) {
+		if (err instanceof DatabaseError) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		} else {
+			const error = new Error(err);
+			error.httpStatusCode = 400;
+			return next(error);
+		}
+	}
 };
