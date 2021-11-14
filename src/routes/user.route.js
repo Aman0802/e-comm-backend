@@ -16,6 +16,7 @@ const {
   deleteCart,
   addToCart,
   getCategoryProducts,
+  stripePayment,
 } = require("../controllers/user.controller");
 
 const router = require("express").Router();
@@ -106,5 +107,7 @@ router.get(
   checkRole("user"),
   getCategoryProducts
 );
+
+router.post("/stripe/payment", stripePayment);
 
 module.exports = router;
