@@ -12,16 +12,6 @@ const {
 	Cart,
 } = require("../database/models");
 
-exports.getCategories = async (req, res, next) => {
-	const categories = await Category.findAll();
-
-	res.status(200).send({
-		code: 200,
-		status: true,
-		data: categories,
-	});
-};
-
 exports.addCategories = async (req, res, next) => {
 	const { categoryName } = req.body;
 
