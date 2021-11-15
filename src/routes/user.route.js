@@ -116,6 +116,8 @@ router.get(
 	getCategoryProducts
 );
 
-router.post("/stripe/payment", stripePayment);
+router.post("/stripe/payment",
+	passport.authenticate("jwt", { session: false }),
+	checkRole("user"), stripePayment);
 
 module.exports = router;

@@ -2,6 +2,9 @@ const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+const { DatabaseError } = require('sequelize')
+
+
 const {
 	Category,
 	Products,
