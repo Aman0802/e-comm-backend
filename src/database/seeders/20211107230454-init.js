@@ -899,6 +899,382 @@ module.exports = {
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsMax,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092412/laa0sigwo4r3mja1v1wm.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsMax,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092424/gmpbu2kae6lae4cal7ur.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsMax,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092441/bzzl1vptwu0rdkr2w1zr.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsMax,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092457/xup7cxrwokafdy8pepvn.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092478/b94jc0fciwpoxmktjble.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092499/jxdtkmbmbvmorv9rgv4l.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092512/v7o7ylaxzvr5dfukyyhz.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleAirpodsPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092527/zubvpamf9r9xsw7wiewx.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadAir,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092545/irbnpytzuagpzxujozvo.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadAir,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092545/irbnpytzuagpzxujozvo.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadAir,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092580/hqgm6hepwrgr9mepovus.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadAir,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092599/e9xoj14xvs3nay637xf0.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092622/s38mwflsmhpb444nnq7x.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092642/k0felepoldmsfa3pvc2t.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092655/zwangj1inzfliyewlpwr.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.appleIpadPro,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092672/esme0vorqmesljhu5i9b.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.macbook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092729/a9bcwxavm5mrpkyxbygx.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.macbook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092745/jyidztwwvjzu9vjkazo6.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.macbook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092758/klsclf7hdhdwpvta16i7.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.macbook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092771/qvtfawuknwkrewzn3b9i.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusZephyrus,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092789/chsgtn31fg5rbgihqab2.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusZephyrus,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092807/t8k8sqno6yfyhihbdgrz.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusZephyrus,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092819/iquvikcqpkts91mk3txt.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusVivobook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092835/sd8wko6ppwjwbpxzy6kf.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusVivobook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092854/vqi9qkmeq1wjuciglo9t.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusVivobook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092866/psh86o5hocvyf6tieyzk.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.asusVivobook,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092866/psh86o5hocvyf6tieyzk.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.fusion54g,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637092991/xojgfjjg9ra2av2bqibn.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.fusion54g,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093028/cxocmfblmmcgn0hily4z.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.fusion54g,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093047/api4jy82ygwynrv9mlcq.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.fusion54g,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093078/ctkhfu9egsf62il36big.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.jblC115,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093101/m11czpsafjmw1nxcepjh.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.jblC115,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093325/fi5mriamgizi4badedhp.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.jblC115,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093341/t6anf9vvunbwghlab0ya.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.jblC115,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093359/qkavjubhsbl1iljcfqcy.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.lg260l,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093380/homrapzeokmtykbi2hs8.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.lg260l,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093400/kc5oxnnorvnovbyjy9ce.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.lg260l,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093415/xrtp3na3udmhdeefbglv.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.lg260l,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093426/mofodngxbil2lpqlhqji.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.oneplusBulletsZ,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093446/nc3izmqfgkp4jbajbxe5.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.oneplusBulletsZ,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093468/neva3ih2qyq9aylwsyy8.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.oneplusBulletsZ,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093561/on7cwi098wcstcdoi6zi.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.oneplusBulletsZ,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093575/xxc5ai7woodx4ygigc8k.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.narutoCover,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093591/hc6nl4tt7z1oeubtsvkv.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.narutoCover,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093612/yxqufotjpwqlpgfxom6t.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.narutoCover,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093625/habhpyca78xhlqwdvpha.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				{
+					productImageId: uuidv4(),
+					productId: productUUIDs.narutoCover,
+					productImageUrl:
+						"https://res.cloudinary.com/itachi-goat/image/upload/v1637093640/zhswf0ltls4knvd2bsif.jpg",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
 			],
 			{}
 		);
