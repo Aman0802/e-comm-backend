@@ -736,7 +736,7 @@ exports.stripePayment = async (req, res, next) => {
         total += amt * parseInt(cartItem.qty);
       })
     );
-    // console.log(total);
+     total *= 100;
     if (total != amount) {
       throw new Error(
         "Amount to be paid is not equal to total price of products in the cart."
@@ -798,6 +798,7 @@ exports.stripePayment = async (req, res, next) => {
       }
     );
   } catch (err) {
+
     if (err instanceof DatabaseError) {
       const error = new Error(err);
       error.httpStatusCode = 500;
