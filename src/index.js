@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const passport = require('passport');
+const passport = require("passport");
 
 dotenv.config();
 
@@ -12,10 +12,10 @@ const routes = require("./routes");
 
 // Disable cross origin resource sharing when development was done.
 app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
+	cors({
+		origin: true,
+		credentials: true,
+	})
 );
 
 // Middlewares
@@ -25,11 +25,13 @@ app.use(passport.initialize());
 
 // Routes
 app.use("/api", routes);
+
+// Error handling middleware
 app.use((error, req, res, next) => {
-  return res.status(error.httpStatusCode).send({
-    code: error.httpStatusCode,
-    message: error.message
-  });
+	return res.status(error.httpStatusCode).send({
+		code: error.httpStatusCode,
+		message: error.message,
+	});
 });
 
 // Port
