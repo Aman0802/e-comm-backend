@@ -508,7 +508,9 @@ exports.deleteCart = async (req, res, next) => {
 };
 
 exports.decreaseCartQty = async (req, res, next) => {
-  const { productId } = req.query;
+  const { productId } = req.body;
+  const token = req.headers.authorization.split(" ")[1];
+  const { email } = jwt_decode(token);
 
   try {
     if (!productId) {
@@ -526,7 +528,8 @@ exports.decreaseCartQty = async (req, res, next) => {
       throw new Error("Product does not exist in cart.");
     }
 
-    if (isproductThere[0].qty == 1) {
+    if (isproductThere[0].qty === 1) {
+      console.log("is this working")
       const chibakuTensei = await Cart.destroy({
         where: {
           userEmail: email,
@@ -542,6 +545,7 @@ exports.decreaseCartQty = async (req, res, next) => {
     }
 
     let newQty = parseInt(isproductThere[0].qty);
+    console.log(newQty)
     newQty -= 1;
     const susanoo = await Cart.update(
       {
