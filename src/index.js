@@ -12,10 +12,10 @@ const routes = require("./routes");
 
 // Disable cross origin resource sharing when development was done.
 app.use(
-	cors({
-		origin: true,
-		credentials: true,
-	})
+  cors({
+    origin: true,
+    credentials: true,
+  })
 );
 
 // Middlewares
@@ -28,12 +28,18 @@ app.use("/api", routes);
 
 // Error handling middleware
 app.use((error, req, res, next) => {
-	return res.status(error.httpStatusCode).send({
-		code: error.httpStatusCode,
-		message: error.message,
-	});
+  return res.status(error.httpStatusCode).send({
+    code: error.httpStatusCode,
+    message: error.message,
+  });
 });
 
+app.use("/check", (req, res, next) => {
+  res.status(200).send({
+    code: 200,
+    data: "Hello DP!",
+  });
+});
 // Port
 const PORT = process.env.PORT || 3000;
 
